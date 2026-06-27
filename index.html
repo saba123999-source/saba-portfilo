@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saba Begum — Backend Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink: #1C2530;
+    --ink-soft: #2C3A4A;
+    --paper: #F7F6F3;
+    --paper-raised: #FFFFFF;
+    --copper: #C9722D;
+    --copper-soft: #F1E0D0;
+    --sage: #3F7D58;
+    --grey: #6B7280;
+    --line: #E2DFD8;
+    --mono: 'IBM Plex Mono', monospace;
+    --serif: 'Fraunces', serif;
+    --sans: 'Inter', sans-serif;
+    --maxw: 920px;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  a{ color:inherit; text-decoration:none; }
+
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 28px; }
+
+  /* ---------- focus ---------- */
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--copper);
+    outline-offset:3px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.001ms !important; transition-duration:0.001ms !important; }
+  }
+
+  /* ---------- keyframes ---------- */
+  @keyframes blink{ 0%,49%{ opacity:1; } 50%,100%{ opacity:0; } }
+  @keyframes pulse-ring{
+    0%{ box-shadow:0 0 0 0 rgba(63,125,88,0.45); }
+    70%{ box-shadow:0 0 0 7px rgba(63,125,88,0); }
+    100%{ box-shadow:0 0 0 0 rgba(63,125,88,0); }
+  }
+  @keyframes fadeUp{
+    from{ opacity:0; transform:translateY(18px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+  @keyframes flow-glow{
+    0%{ background:rgba(255,255,255,0.06); border-color:rgba(255,255,255,0.14); }
+    30%{ background:rgba(201,114,45,0.22); border-color:rgba(201,114,45,0.55); }
+    60%{ background:rgba(255,255,255,0.06); border-color:rgba(255,255,255,0.14); }
+    100%{ background:rgba(255,255,255,0.06); border-color:rgba(255,255,255,0.14); }
+  }
+  @keyframes arrow-travel{
+    0%, 100%{ opacity:0.35; transform:translateX(0); }
+    50%{ opacity:1; transform:translateX(3px); }
+  }
+
+  /* scroll reveal */
+  .reveal{
+    opacity:0; transform:translateY(22px);
+    transition:opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1);
+  }
+  .reveal.in-view{ opacity:1; transform:translateY(0); }
+  .reveal-stagger > *{
+    opacity:0; transform:translateY(16px);
+    transition:opacity .55s ease, transform .55s ease;
+  }
+  .reveal-stagger.in-view > *{ opacity:1; transform:translateY(0); }
+  .reveal-stagger.in-view > *:nth-child(1){ transition-delay:.02s; }
+  .reveal-stagger.in-view > *:nth-child(2){ transition-delay:.09s; }
+  .reveal-stagger.in-view > *:nth-child(3){ transition-delay:.16s; }
+  .reveal-stagger.in-view > *:nth-child(4){ transition-delay:.23s; }
+  .reveal-stagger.in-view > *:nth-child(5){ transition-delay:.30s; }
+  .reveal-stagger.in-view > *:nth-child(6){ transition-delay:.37s; }
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal, .reveal-stagger > *{ opacity:1 !important; transform:none !important; }
+  }
+
+  /* ---------- nav ---------- */
+  .nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(247,246,243,0.88);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    height:64px;
+  }
+  .nav-mark{
+    font-family:var(--mono); font-size:14px; font-weight:600;
+    letter-spacing:0.02em;
+    display:flex; align-items:center; gap:8px;
+  }
+  .nav-mark .dot{
+    width:7px; height:7px; border-radius:50%; background:var(--sage);
+    box-shadow:0 0 0 3px rgba(63,125,88,0.15);
+    animation:pulse-ring 2.4s ease-out infinite;
+  }
+  .nav-links{ display:flex; gap:28px; font-family:var(--mono); font-size:13px; }
+  .nav-links a{ color:var(--grey); transition:color .15s ease; position:relative; }
+  .nav-links a:hover{ color:var(--ink); }
+  .nav-cta{
+    font-family:var(--mono); font-size:13px; font-weight:500;
+    border:1px solid var(--ink); border-radius:6px;
+    padding:7px 14px;
+    transition:background .15s ease, color .15s ease;
+  }
+  .nav-cta:hover{ background:var(--ink); color:var(--paper); }
+  .nav-toggle{ display:none; }
+
+  @media (max-width:720px){
+    .nav-links{ display:none; }
+    .nav-cta{ padding:6px 11px; font-size:12px; }
+  }
+
+  /* ---------- hero ---------- */
+  .hero{ padding:96px 0 72px; position:relative; }
+
+  .terminal{
+    font-family:var(--mono); font-size:13px;
+    background:var(--ink); color:#A9F0C4;
+    border-radius:8px;
+    padding:12px 16px;
+    display:inline-flex; align-items:center; gap:10px;
+    margin-bottom:30px;
+    box-shadow:0 10px 30px -14px rgba(28,37,48,0.45);
+  }
+  .terminal .tdots{ display:flex; gap:5px; flex:none; }
+  .terminal .tdots span{ width:8px; height:8px; border-radius:50%; }
+  .terminal .tdots span:nth-child(1){ background:#E0645A; }
+  .terminal .tdots span:nth-child(2){ background:#E0B354; }
+  .terminal .tdots span:nth-child(3){ background:#5FBF77; }
+  .terminal .tline{ color:#A9F0C4; white-space:nowrap; }
+  .terminal .tline .prompt{ color:#5C9CE6; margin-right:6px; }
+  .terminal .caret{
+    display:inline-block; width:7px; height:14px;
+    background:#A9F0C4; margin-left:2px; vertical-align:-2px;
+    animation:blink 1s step-end infinite;
+  }
+  .typed-text{
+    display:inline-block; overflow:hidden; white-space:nowrap;
+    width:0;
+    animation:typing 2.6s steps(40, end) .4s forwards;
+  }
+  @keyframes typing{ from{ width:0; } to{ width:100%; } }
+
+  @media (max-width:520px){
+    .terminal{ font-size:11.5px; padding:10px 12px; max-width:100%; }
+    .terminal .tline{ white-space:normal; }
+    .typed-text{ animation:typing 2.6s steps(40,end) .4s forwards; }
+  }
+
+  .hero-eyebrow{
+    font-family:var(--mono); font-size:13px; color:var(--copper);
+    letter-spacing:0.06em; margin-bottom:22px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .hero-eyebrow .rule{ width:36px; height:1px; background:var(--copper); }
+
+  .hero h1{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:clamp(42px, 7vw, 72px);
+    line-height:1.03;
+    letter-spacing:-0.01em;
+    max-width:780px;
+  }
+  .hero h1 em{
+    font-style:italic; font-weight:500; color:var(--ink-soft);
+  }
+
+  .hero-sub{
+    margin-top:24px;
+    font-size:18px;
+    color:var(--ink-soft);
+    max-width:600px;
+    line-height:1.65;
+  }
+  .hero-sub strong{ color:var(--ink); font-weight:600; }
+
+  .hero-meta{
+    margin-top:36px;
+    display:flex; flex-wrap:wrap; gap:10px;
+  }
+  .meta-chip{
+    font-family:var(--mono); font-size:12.5px;
+    border:1px solid var(--line);
+    background:var(--paper-raised);
+    border-radius:20px;
+    padding:7px 14px;
+    color:var(--ink-soft);
+    display:flex; align-items:center; gap:7px;
+  }
+  .meta-chip .ico{ width:6px; height:6px; border-radius:50%; background:var(--sage); flex:none; }
+
+  .hero-actions{ margin-top:40px; display:flex; gap:14px; flex-wrap:wrap; }
+  .btn{
+    font-family:var(--sans); font-weight:600; font-size:14.5px;
+    padding:13px 24px; border-radius:7px;
+    display:inline-flex; align-items:center; gap:8px;
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .btn-primary{ background:var(--ink); color:var(--paper); }
+  .btn-primary:hover{ transform:translateY(-1px); box-shadow:0 8px 20px -8px rgba(28,37,48,0.5); }
+  .btn-ghost{ border:1px solid var(--line); color:var(--ink); background:var(--paper-raised); }
+  .btn-ghost:hover{ border-color:var(--ink); }
+
+  /* ---------- section scaffolding ---------- */
+  section{ padding:88px 0; border-top:1px solid var(--line); }
+  .sec-label{
+    font-family:var(--mono); font-size:12.5px; color:var(--copper);
+    letter-spacing:0.04em;
+    margin-bottom:14px;
+    display:block;
+  }
+  .sec-title{
+    font-family:var(--serif); font-weight:600;
+    font-size:clamp(28px,4vw,38px);
+    margin-bottom:8px;
+    letter-spacing:-0.01em;
+  }
+  .sec-desc{ color:var(--grey); max-width:560px; font-size:15.5px; margin-bottom:48px; }
+
+  /* ---------- about / summary ---------- */
+  .about-grid{
+    display:grid; grid-template-columns: 1.3fr 1fr; gap:56px;
+  }
+  .about-body p{ font-size:17px; color:var(--ink-soft); line-height:1.75; }
+  .about-body p + p{ margin-top:16px; }
+
+  .stat-stack{ display:flex; flex-direction:column; gap:0; }
+  .stat{
+    padding:20px 0; border-bottom:1px solid var(--line);
+  }
+  .stat:first-child{ padding-top:0; }
+  .stat-num{ font-family:var(--serif); font-size:32px; font-weight:600; color:var(--ink); }
+  .stat-label{ font-family:var(--mono); font-size:12px; color:var(--grey); margin-top:4px; }
+
+  @media (max-width:780px){
+    .about-grid{ grid-template-columns:1fr; gap:36px; }
+  }
+
+  /* ---------- skills ---------- */
+  .skill-groups{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
+  .skill-group{
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:22px 22px 24px;
+    transition:transform .25s cubic-bezier(.2,.7,.2,1), box-shadow .25s ease, border-color .25s ease;
+  }
+  .skill-group:hover{
+    transform:translateY(-4px);
+    box-shadow:0 16px 32px -18px rgba(28,37,48,0.25);
+    border-color:#D8CFC0;
+  }
+  .skill-group h4{
+    font-family:var(--mono); font-size:12px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--grey); margin-bottom:14px;
+  }
+  .pill-row{ display:flex; flex-wrap:wrap; gap:8px; }
+  .pill{
+    font-family:var(--mono); font-size:12.5px;
+    background:var(--paper); border:1px solid var(--line);
+    border-radius:5px; padding:5px 10px; color:var(--ink-soft);
+    transition:background .2s ease, color .2s ease, border-color .2s ease, transform .2s ease;
+  }
+  .pill:hover{
+    background:var(--ink); color:var(--paper); border-color:var(--ink);
+    transform:translateY(-2px);
+  }
+  @media (max-width:780px){
+    .skill-groups{ grid-template-columns:1fr 1fr; }
+  }
+  @media (max-width:520px){
+    .skill-groups{ grid-template-columns:1fr; }
+  }
+
+  /* ---------- experience timeline ---------- */
+  .timeline{ position:relative; }
+  .tl-item{
+    display:grid; grid-template-columns:160px 1fr;
+    gap:32px;
+    padding:32px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .tl-item:first-child{ padding-top:0; }
+  .tl-item:last-child{ border-bottom:none; padding-bottom:0; }
+
+  .tl-when{ font-family:var(--mono); font-size:13px; color:var(--grey); padding-top:3px; }
+  .tl-when .status{
+    display:inline-flex; align-items:center; gap:6px;
+    margin-top:10px; color:var(--sage); font-size:11.5px;
+  }
+  .tl-when .status .ico{ width:6px; height:6px; border-radius:50%; background:var(--sage); animation:pulse-ring 2.4s ease-out infinite; }
+
+  .tl-item{ transition:padding-left .25s ease; }
+  .tl-item:hover{ padding-left:6px; }
+
+  .tl-role{ font-family:var(--sans); font-weight:700; font-size:18px; }
+  .tl-org{ font-family:var(--mono); font-size:13px; color:var(--copper); margin-top:3px; }
+  .tl-list{ margin-top:14px; display:flex; flex-direction:column; gap:9px; }
+  .tl-list li{
+    list-style:none; position:relative; padding-left:18px;
+    color:var(--ink-soft); font-size:14.5px; line-height:1.6;
+  }
+  .tl-list li::before{
+    content:""; position:absolute; left:0; top:8px;
+    width:7px; height:1.5px; background:var(--copper);
+  }
+
+  @media (max-width:680px){
+    .tl-item{ grid-template-columns:1fr; gap:10px; }
+  }
+
+  /* ---------- project ---------- */
+  .project-card{
+    background:var(--ink);
+    color:var(--paper);
+    border-radius:14px;
+    padding:44px;
+    position:relative;
+    overflow:hidden;
+  }
+  .project-card::before{
+    content:"";
+    position:absolute; inset:0;
+    background:
+      radial-gradient(circle at 85% -10%, rgba(201,114,45,0.22), transparent 55%);
+    pointer-events:none;
+  }
+  .project-top{
+    display:flex; justify-content:space-between; align-items:flex-start;
+    gap:24px; flex-wrap:wrap; position:relative; z-index:1;
+  }
+  .project-name{ font-family:var(--serif); font-size:28px; font-weight:600; }
+  .project-tag{
+    font-family:var(--mono); font-size:11.5px; color:#B9C2CC;
+    border:1px solid rgba(255,255,255,0.18);
+    border-radius:20px; padding:5px 12px;
+    white-space:nowrap;
+  }
+  .project-desc{
+    margin-top:18px; color:#C9D1D9; font-size:15.5px; line-height:1.7;
+    max-width:620px; position:relative; z-index:1;
+  }
+
+  .project-flow{
+    margin-top:34px; position:relative; z-index:1;
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center;
+  }
+  .flow-step{
+    font-family:var(--mono); font-size:12px;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.14);
+    border-radius:6px; padding:7px 11px; color:#E5E9ED;
+    animation:flow-glow 6s ease-in-out infinite;
+  }
+  .flow-step:nth-child(1){ animation-delay:0s; }
+  .flow-step:nth-child(3){ animation-delay:.9s; }
+  .flow-step:nth-child(5){ animation-delay:1.8s; }
+  .flow-step:nth-child(7){ animation-delay:2.7s; }
+  .flow-step:nth-child(9){ animation-delay:3.6s; }
+  .flow-arrow{ color:#5C6B79; font-size:13px; display:inline-block; animation:arrow-travel 1.6s ease-in-out infinite; }
+
+  .project-stack{
+    margin-top:30px; position:relative; z-index:1;
+    display:flex; flex-wrap:wrap; gap:8px;
+  }
+  .stack-pill{
+    font-family:var(--mono); font-size:11.5px;
+    background:rgba(201,114,45,0.16);
+    color:#F0C8A4;
+    border:1px solid rgba(201,114,45,0.35);
+    border-radius:5px; padding:5px 10px;
+    transition:transform .2s ease, background .2s ease;
+  }
+  .stack-pill:hover{ transform:translateY(-2px); background:rgba(201,114,45,0.28); }
+
+  .project-resp{
+    margin-top:34px; position:relative; z-index:1;
+    display:grid; grid-template-columns:1fr 1fr;
+    gap:10px 28px;
+  }
+  .project-resp li{
+    list-style:none; position:relative; padding-left:16px;
+    font-size:13.5px; color:#C9D1D9; line-height:1.55;
+  }
+  .project-resp li::before{
+    content:""; position:absolute; left:0; top:7px;
+    width:6px; height:1.5px; background:#7A8A99;
+  }
+  @media (max-width:680px){
+    .project-card{ padding:30px 24px; }
+    .project-resp{ grid-template-columns:1fr; }
+  }
+
+  /* ---------- education ---------- */
+  .edu-card{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    flex-wrap:wrap; gap:16px;
+    border:1px solid var(--line);
+    background:var(--paper-raised);
+    border-radius:10px;
+    padding:28px 30px;
+    transition:transform .25s cubic-bezier(.2,.7,.2,1), box-shadow .25s ease;
+  }
+  .edu-card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 16px 32px -18px rgba(28,37,48,0.25);
+  }
+  .edu-degree{ font-family:var(--sans); font-weight:700; font-size:17px; }
+  .edu-school{ font-family:var(--mono); font-size:13px; color:var(--grey); margin-top:6px; }
+  .edu-score{
+    font-family:var(--serif); font-size:30px; font-weight:600; color:var(--copper);
+    text-align:right;
+  }
+  .edu-score span{ display:block; font-family:var(--mono); font-size:11px; color:var(--grey); font-weight:400; margin-top:2px; }
+
+  /* ---------- contact / footer ---------- */
+  .contact{
+    padding:96px 0 64px;
+    border-top:1px solid var(--line);
+    text-align:center;
+  }
+  .contact .sec-label{ justify-content:center; display:flex; }
+  .contact h2{
+    font-family:var(--serif); font-weight:600;
+    font-size:clamp(32px,5vw,52px);
+    max-width:680px; margin:0 auto;
+    letter-spacing:-0.01em;
+  }
+  .contact p{ color:var(--grey); margin-top:18px; font-size:16px; }
+  .contact-actions{
+    margin-top:36px; display:flex; gap:14px; justify-content:center; flex-wrap:wrap;
+  }
+  .contact-links{
+    margin-top:48px; display:flex; gap:28px; justify-content:center;
+    font-family:var(--mono); font-size:13px; color:var(--grey); flex-wrap:wrap;
+  }
+  .contact-links a{ transition:color .15s ease; }
+  .contact-links a:hover{ color:var(--ink); }
+
+  footer{
+    padding:28px 0 40px; text-align:center;
+    font-family:var(--mono); font-size:12px; color:var(--grey);
+  }
+
+  ::selection{ background:var(--copper-soft); }
+</style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="wrap nav-inner">
+      <div class="nav-mark"><span class="dot"></span> SABA&nbsp;BEGUM</div>
+      <div class="nav-links">
+        <a href="#about">about</a>
+        <a href="#skills">skills</a>
+        <a href="#experience">experience</a>
+        <a href="#project">project</a>
+        <a href="#education">education</a>
+      </div>
+      <a class="nav-cta" href="mailto:sababegum67899@gmail.com">contact</a>
+    </div>
+  </nav>
+
+  <header class="hero wrap">
+    <div class="terminal reveal">
+      <span class="tdots"><span></span><span></span><span></span></span>
+      <span class="tline"><span class="prompt">saba@backend:~$</span><span class="typed-text">whoami &amp;&amp; echo "Java · Spring Boot · REST APIs"</span></span><span class="caret"></span>
+    </div>
+    <div class="hero-eyebrow reveal"><span class="rule"></span> BACKEND ENGINEER · JAVA / SPRING BOOT</div>
+    <h1 class="reveal">Builds the services<br>that keep <em>everything else</em><br>talking.</h1>
+    <p class="hero-sub reveal">
+      <strong>Saba Begum</strong> — a backend engineer who designs REST APIs, wires up
+      microservices, and makes sure the messages get where they're going,
+      on time, every time.
+    </p>
+    <div class="hero-meta reveal-stagger reveal">
+      <div class="meta-chip"><span class="ico"></span>Hyderabad, India</div>
+      <div class="meta-chip"><span class="ico"></span>Immediate Joiner</div>
+      <div class="meta-chip"><span class="ico"></span>1 yr · Backend / Java</div>
+    </div>
+    <div class="hero-actions reveal">
+      <a class="btn btn-primary" href="mailto:sababegum67899@gmail.com">Get in touch</a>
+      <a class="btn btn-ghost" href="#project">View the project →</a>
+    </div>
+  </header>
+
+  <section id="about">
+    <div class="wrap">
+      <span class="sec-label reveal">// summary</span>
+      <h2 class="sec-title reveal">What I do</h2>
+      <div class="about-grid reveal">
+        <div class="about-body">
+          <p>
+            I build backend applications with Java 8 and Spring Boot — the kind of
+            systems that don't get noticed when they're working, because they're
+            simply doing their job. That means clean microservices, RESTful APIs
+            that are easy for other teams to consume, and authentication that
+            actually holds up.
+          </p>
+          <p>
+            Most recently at Iqra Technology, I worked across the stack from database
+            design to deployment — Spring Security and JWT for auth, Apache Kafka for
+            async messaging, MySQL and PostgreSQL underneath, and Docker + Jenkins to
+            ship it. I like the parts of the job where a slow query becomes fast, or
+            a flaky integration becomes reliable.
+          </p>
+        </div>
+        <div class="stat-stack">
+          <div class="stat">
+            <div class="stat-num">1</div>
+            <div class="stat-label">YEAR · BACKEND DEVELOPMENT</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">9</div>
+            <div class="stat-label">CORE TOOLS IN DAILY USE</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">MCA</div>
+            <div class="stat-label">CGPA 8.5 · VTU, KARNATAKA</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="wrap">
+      <span class="sec-label reveal">// stack</span>
+      <h2 class="sec-title reveal">What I work with</h2>
+      <p class="sec-desc reveal">The tools that show up in almost everything I build, grouped by where they sit in the stack.</p>
+      <div class="skill-groups reveal-stagger reveal">
+        <div class="skill-group">
+          <h4>Language &amp; Frameworks</h4>
+          <div class="pill-row">
+            <span class="pill">Java 8</span>
+            <span class="pill">Spring Boot</span>
+            <span class="pill">Spring MVC</span>
+            <span class="pill">Spring Security</span>
+            <span class="pill">Spring Data JPA</span>
+            <span class="pill">Hibernate</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h4>Architecture &amp; Data</h4>
+          <div class="pill-row">
+            <span class="pill">Microservices</span>
+            <span class="pill">REST API Design</span>
+            <span class="pill">Apache Kafka</span>
+            <span class="pill">MySQL</span>
+            <span class="pill">PostgreSQL</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h4>Cloud, Tools &amp; Process</h4>
+          <div class="pill-row">
+            <span class="pill">AWS (EC2 / RDS / S3)</span>
+            <span class="pill">Docker</span>
+            <span class="pill">Jenkins</span>
+            <span class="pill">Git</span>
+            <span class="pill">Postman</span>
+            <span class="pill">Swagger</span>
+            <span class="pill">Log4j</span>
+            <span class="pill">ELK Stack</span>
+            <span class="pill">Agile / Scrum</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="wrap">
+      <span class="sec-label reveal">// experience</span>
+      <h2 class="sec-title reveal">Where I've worked</h2>
+      <div class="timeline reveal">
+        <div class="tl-item">
+          <div class="tl-when">
+            Jan 2024 — Dec 2024
+            <div class="status"><span class="ico"></span>most recent</div>
+          </div>
+          <div>
+            <div class="tl-role">Software Engineer (Backend Developer)</div>
+            <div class="tl-org">Iqra Technology · Hyderabad, India</div>
+            <ul class="tl-list">
+              <li>Designed and developed backend microservices using Java 8 and Spring Boot following clean coding practices.</li>
+              <li>Built secure RESTful APIs using Spring Security with JWT-based authentication and authorization.</li>
+              <li>Integrated Apache Kafka for asynchronous messaging and inter-service communication.</li>
+              <li>Designed and optimized MySQL and PostgreSQL databases using Hibernate and Spring Data JPA.</li>
+              <li>Deployed applications on AWS using Docker containers and Jenkins CI/CD pipelines.</li>
+              <li>Implemented centralized logging and monitoring using Log4j and the ELK Stack.</li>
+              <li>Collaborated with frontend teams to integrate Angular UI with backend services in an Agile/Scrum environment.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="project">
+    <div class="wrap">
+      <span class="sec-label reveal">// project</span>
+      <h2 class="sec-title reveal">Something I built end to end</h2>
+      <div class="project-card reveal">
+        <div class="project-top">
+          <div class="project-name">Doctor Appointment Application</div>
+          <div class="project-tag">healthcare · backend system</div>
+        </div>
+        <p class="project-desc">
+          A healthcare appointment platform that lets patients search for doctors,
+          book appointments, manage schedules, attend online consultations,
+          get notified, and keep their records straight — all backed by a
+          secure, scalable backend.
+        </p>
+
+        <div class="project-flow">
+          <span class="flow-step">search doctor</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">book appointment</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">JWT auth</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">Kafka notification</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">record stored</span>
+        </div>
+
+        <div class="project-stack">
+          <span class="stack-pill">Java 8</span>
+          <span class="stack-pill">Spring Boot</span>
+          <span class="stack-pill">Spring Security</span>
+          <span class="stack-pill">JWT</span>
+          <span class="stack-pill">Hibernate JPA</span>
+          <span class="stack-pill">MySQL</span>
+          <span class="stack-pill">Apache Kafka</span>
+          <span class="stack-pill">Docker</span>
+          <span class="stack-pill">AWS</span>
+          <span class="stack-pill">Jenkins</span>
+          <span class="stack-pill">Postman</span>
+          <span class="stack-pill">Swagger</span>
+        </div>
+
+        <ul class="project-resp">
+          <li>Built backend microservices using Java 8 and Spring Boot.</li>
+          <li>Designed RESTful APIs for doctor search, booking, scheduling, and patient management.</li>
+          <li>Implemented authentication and authorization with Spring Security and JWT.</li>
+          <li>Integrated Kafka for asynchronous notification and appointment events.</li>
+          <li>Used Hibernate JPA and MySQL for data modelling and entity relationships.</li>
+          <li>Optimized SQL queries to improve application performance.</li>
+          <li>Used Docker and Jenkins for deployment and CI/CD automation.</li>
+          <li>Tested APIs in Postman and documented them with Swagger.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="education">
+    <div class="wrap">
+      <span class="sec-label reveal">// education</span>
+      <h2 class="sec-title reveal">Background</h2>
+      <div class="edu-card reveal">
+        <div>
+          <div class="edu-degree">Master of Computer Applications (MCA)</div>
+          <div class="edu-school">Visvesvaraya Technological University (VTU), Karnataka</div>
+        </div>
+        <div class="edu-score">8.5<span>CGPA</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact" style="border-bottom:none;">
+    <div class="wrap">
+      <span class="sec-label reveal">// contact</span>
+      <h2 class="reveal">Looking for a backend engineer who ships and explains it clearly?</h2>
+      <p class="reveal">Immediate joiner, based in Hyderabad, open to backend / Java roles.</p>
+      <div class="contact-actions reveal">
+        <a class="btn btn-primary" href="mailto:sababegum67899@gmail.com">sababegum67899@gmail.com</a>
+        <a class="btn btn-ghost" href="tel:+919448068847">+91 94480 68847</a>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:sababegum67899@gmail.com">Email</a>
+        <a href="tel:+919448068847">Phone</a>
+        <a href="#about">Back to top ↑</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>Saba Begum · Hyderabad, India</footer>
+
+  <script>
+    (function(){
+      // Hero elements animate immediately on load
+      document.querySelectorAll('.hero .reveal').forEach(function(el, i){
+        setTimeout(function(){ el.classList.add('in-view'); }, 80 + i * 90);
+      });
+
+      var els = document.querySelectorAll('.reveal:not(.hero .reveal)');
+      if(!('IntersectionObserver' in window)){
+        els.forEach(function(el){ el.classList.add('in-view'); });
+        return;
+      }
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(entry.isIntersecting){
+            entry.target.classList.add('in-view');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      els.forEach(function(el){ io.observe(el); });
+    })();
+  </script>
+
+</body>
+</html>
